@@ -5,7 +5,7 @@ import {
   CalendarDays, Clock, CalendarOff, Sunrise, Sun, CloudSun, Sunset, Moon,
   CheckCircle2, CalendarX, AlertTriangle, PenLine, ThumbsUp, X,
 } from "@/components/app/icons";
-import { AppShell, Avatar } from "@/components/app/AppShell";
+import { Avatar } from "@/components/app/AppShell";
 import { Sheet, Field, inputCls, primaryBtn } from "@/components/app/Sheet";
 import { StudentForm } from "@/components/app/StudentForm";
 import { TutanakForm } from "@/components/app/TutanakForm";
@@ -117,10 +117,10 @@ function TalebeDetay() {
 
   if (!student) {
     return (
-      <AppShell>
+      <>
         <Link to="/" className="mt-4 flex items-center gap-2 text-sm text-muted-foreground"><ArrowLeft className="h-4 w-4" /> Talebeler</Link>
         <p className="mt-10 text-center text-muted-foreground">Talebe bulunamadı.</p>
-      </AppShell>
+      </>
     );
   }
 
@@ -144,7 +144,7 @@ function TalebeDetay() {
   const neg = tut.filter((t) => !t.positive);
 
   return (
-    <AppShell>
+    <>
       <Link to="/" className="mt-4 flex items-center gap-2 text-sm text-muted-foreground print:hidden">
         <ArrowLeft className="h-4 w-4" /> Talebeler
       </Link>
@@ -318,6 +318,6 @@ function TalebeDetay() {
       <Sheet open={sheet === "tutanak"} onClose={() => setSheet(null)} title="Yeni Tutanak">
         <TutanakForm onCancel={() => setSheet(null)} onSubmit={(t) => { store.addTutanak({ ...t, studentId: id }); setSheet(null); }} />
       </Sheet>
-    </AppShell>
+    </>
   );
 }

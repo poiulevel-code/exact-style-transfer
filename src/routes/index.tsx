@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, User, GraduationCap, Users, Menu as MenuIcon } from "@/components/app/icons";
-import { AppShell, Avatar } from "@/components/app/AppShell";
+import { Avatar } from "@/components/app/AppShell";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
@@ -21,7 +21,7 @@ function Index() {
   const [q, setQ] = useState("");
   const list = students.filter((s) => s.name.toLocaleLowerCase("tr").includes(q.toLocaleLowerCase("tr")));
   return (
-    <AppShell>
+    <>
       <div className="mt-7 flex items-center justify-between">
         <h2 className="font-serif text-2xl font-bold">Talebeler</h2>
         <span className="flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-sm">
@@ -66,6 +66,6 @@ function Index() {
           </div>
         </>
       )}
-    </AppShell>
+    </>
   );
 }

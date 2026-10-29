@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Download, Upload, RotateCcw, FileDown, UserPlus } from "@/components/app/icons";
-import { AppShell } from "@/components/app/AppShell";
 import { ReportSheet } from "@/components/app/ReportSheet";
 import { Sheet } from "@/components/app/Sheet";
 import { StudentForm, emptyStudent } from "@/components/app/StudentForm";
@@ -51,7 +50,7 @@ function Menu() {
   const btn = "flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-4 text-left text-sm";
 
   return (
-    <AppShell>
+    <>
       <h2 className="mt-7 font-serif text-3xl font-bold">Menü</h2>
       <div className="mt-4 grid grid-cols-3 gap-2 text-center">
         {[["Talebe", students.length], ["Yoklama", attendance.length], ["Tutanak", tutanaklar.length]].map(([l, v]) => (
@@ -77,6 +76,6 @@ function Menu() {
         {msg && <p className="text-center text-sm text-primary">{msg}</p>}
         <p className="text-center text-xs text-muted-foreground">Veriler bu cihazda saklanır.</p>
       </div>
-    </AppShell>
+    </>
   );
 }

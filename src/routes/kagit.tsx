@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Calendar, FileText, Camera, ImagePlus, Sparkles } from "@/components/app/icons";
-import { AppShell } from "@/components/app/AppShell";
 
 export const Route = createFileRoute("/kagit")({
   head: () => ({
@@ -39,7 +38,7 @@ function Kagit() {
   const [end, setEnd] = useState(iso(now));
   const [files, setFiles] = useState<File[]>([]);
   return (
-    <AppShell>
+    <>
       <h2 className="mt-2 font-serif text-3xl font-bold">Kâğıt Yoklama</h2>
       <p className="mt-2 text-sm text-muted-foreground">Haftalık veya aylık kâğıt yoklamanın fotoğrafını yükleyin — yapay zekâ kayıtları çıkarır, kontrol edip kaydedersiniz.</p>
       <div className="mt-5 rounded-2xl border border-border bg-card p-5">
@@ -63,6 +62,6 @@ function Kagit() {
           <Sparkles className="h-4 w-4" /> AI ile Analiz Et
         </button>
       </div>
-    </AppShell>
+    </>
   );
 }
