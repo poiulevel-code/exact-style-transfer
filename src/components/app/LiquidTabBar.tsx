@@ -10,7 +10,11 @@ export function LiquidTabBar({ tabs }: { tabs: readonly Tab[] }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const trackRef = useRef<HTMLDivElement>(null);
-  const activeIndex = Math.max(0, tabs.findIndex((t) => t.to === pathname));
+  const routeIndex = Math.max(0, tabs.findIndex((t) => t.to === pathname));
+  // Optimistic: move the bubble the moment a tab is touched, before the page finishes switching.
+  const [tapped, setTapped] = useState<number | null>(null);
+  useEffect(() => setTapped(null), [routeIndex]);
+  const activeIndex = tapped ?? routeIndex;
   const [width, setWidth] = useState(0);
   const [drag, setDrag] = useState<number | null>(null); // bubble left px while dragging
   const [dir, setDir] = useState<1 | -1>(1);
@@ -68,8 +72,8 @@ export function LiquidTabBar({ tabs }: { tabs: readonly Tab[] }) {
   };
 
   // Liquid: leading edge moves fast, trailing edge lags -> stretch & settle
-  const fast = "220ms cubic-bezier(0.34, 1.3, 0.64, 1)";
-  const slow = "320ms cubic-bezier(0.5, 1.15, 0.5, 1)";
+  const fast = "160ms cubic-bezier(0.34, 1.3, 0.64, 1)";
+  const slow = "230ms cubic-bezier(0.5, 1.15, 0.5, 1)";
   const transition =
     drag != null
       ? "none"
@@ -93,7 +97,7 @@ export function LiquidTabBar({ tabs }: { tabs: readonly Tab[] }) {
             <span
               aria-hidden
               className={`glass-bubble absolute inset-y-0 rounded-[1.6rem] ${drag != null ? "scale-[1.06]" : ""}`}
-              style={{ left, right: width - left - tabW, transition: `${transition}, transform 250ms ease` }}
+              style={{ left, right: width - left - tabW, transition: `${transition}, transform 180ms ease`, willChange: "left, right" }}
             />
           )}
           {tabs.map(({ to, label, icon: Icon }, i) => {
@@ -105,12 +109,16 @@ export function LiquidTabBar({ tabs }: { tabs: readonly Tab[] }) {
                 draggable={false}
                 onClick={(e) => {
                   if (suppressClick.current) e.preventDefault();
+                  else if (i !== activeIndex) {
+                    setDir(i > activeIndex ? 1 : -1);
+                    setTapped(i);
+                  }
                 }}
-                className={`relative z-10 flex flex-col items-center gap-0.5 rounded-[1.6rem] py-2 text-[11px] transition-[color,transform] duration-300 ${
+                className={`relative z-10 flex flex-col items-center gap-0.5 rounded-[1.6rem] py-2 text-[11px] transition-[color,transform] duration-150 ${
                   active ? "font-semibold text-primary" : "text-muted-foreground active:scale-95"
                 }`}
               >
-                <Icon className={`h-[22px] w-[22px] transition-transform duration-300 ${active ? "scale-110" : ""}`} strokeWidth={active ? 2.4 : 1.8} />
+                <Icon className={`h-[22px] w-[22px] transition-transform duration-150 ${active ? "scale-110" : ""}`} strokeWidth={active ? 2.4 : 1.8} />
                 {label}
               </Link>
             );
