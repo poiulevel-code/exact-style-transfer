@@ -16,7 +16,7 @@ Kurallar:
 - YALNIZCA şu JSON'u döndür, başka hiçbir şey yazma:
 {"rows":[{"studentId":"...","date":"YYYY-MM-DD","vakitler":["Sabah"],"ders":true}]}`;
 
-const isoRe = /^\\d{4}-\\d{2}-\\d{2}$/;
+const isoRe = /^\d{4}-\d{2}-\d{2}$/;
 
 export const analyzePaperAttendance = createServerFn({ method: "POST" })
   .inputValidator((input: { images: string[]; students: { id: string; name: string }[]; start: string; end: string }) => {
