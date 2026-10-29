@@ -61,7 +61,10 @@ export type State = { students: Student[]; tutanaklar: Tutanak[]; attendance: At
 function load(): State {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw) as State;
+    if (raw) {
+      const s = JSON.parse(raw) as Partial<State>;
+      return { students: s.students ?? [], tutanaklar: s.tutanaklar ?? [], attendance: s.attendance ?? [] };
+    }
   } catch {
     /* ignore */
   }
@@ -80,7 +83,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (ready) localStorage.setItem(KEY, JSON.stringify(state));
+    if (!ready) return;
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    } catch (e) {
+      console.error("Veriler kaydedilemedi", e);
+      alert("Veriler kaydedilemedi: cihaz hafızası dolu olabilir. Lütfen Menü'den yedek alın.");
+    }
   }, [state, ready]);
 
   const store: Store = {

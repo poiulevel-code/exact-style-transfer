@@ -1,3 +1,4 @@
+import { localIso } from "@/lib/utils";
 import { useRef, useState, type FormEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Camera, FileText, Loader2, Sparkles } from "./icons";
@@ -7,7 +8,7 @@ import { newFileId, prepareFile, putFile, type StoredFile } from "@/lib/attachme
 import type { Tutanak } from "@/lib/store";
 
 export const TUTANAK_TAGS = ["Namaza Katılmama", "Derse Geç Kalma", "Disiplinsizlik", "Arkadaşlarıyla Tartışma", "Güzel Davranış", "Başarı", "Diğer"];
-const today = () => new Date().toISOString().slice(0, 10);
+const today = () => localIso();
 const label = "mb-1.5 block text-sm font-medium";
 
 function FilePick({ icon: Icon, title, accept, file, onPick }: {

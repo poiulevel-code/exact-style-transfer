@@ -1,3 +1,4 @@
+import { localIso } from "@/lib/utils";
 import { useState } from "react";
 import type { Student } from "@/lib/store";
 import { Field, inputCls, primaryBtn } from "./Sheet";
@@ -5,7 +6,7 @@ import { Field, inputCls, primaryBtn } from "./Sheet";
 export type StudentInput = Omit<Student, "id">;
 
 export const emptyStudent: StudentInput = {
-  name: "", age: "", group: "Daimi Grup", city: "", startDate: new Date().toISOString().slice(0, 10), guardian: "", phone: "", status: "İyi",
+  name: "", age: "", group: "Daimi Grup", city: "", startDate: localIso(), guardian: "", phone: "", status: "İyi",
 };
 
 export function StudentForm({ initial, onSubmit }: { initial: StudentInput; onSubmit: (s: StudentInput) => void }) {

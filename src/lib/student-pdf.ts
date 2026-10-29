@@ -1,3 +1,4 @@
+import { localIso } from "@/lib/utils";
 // Colourful student PDFs (full family report and single tutanak), built from data with jsPDF.
 // jsPDF / pdf-lib load lazily so they never slow app startup.
 import type { AttendanceRow, Student, Tutanak } from "./store";
@@ -93,7 +94,7 @@ function header(d: Doc, kicker: string, s: Student) {
   font(d, 8.5, true, [205, 232, 218]);
   d.text(`KUR'AN KURSU · ${kicker.toLocaleUpperCase("tr")}`, M, 13);
   font(d, 8, false, [205, 232, 218]);
-  d.text(`Hazırlanma: ${fmt(new Date().toISOString().slice(0, 10))}`, PW - M, 13, { align: "right" });
+  d.text(`Hazırlanma: ${fmt(localIso())}`, PW - M, 13, { align: "right" });
   font(d, 22, true, C.white);
   d.text(s.name, M, 28);
   const sub = [s.age && `${s.age} yaş`, s.group, s.city].filter(Boolean).join("  ·  ");
