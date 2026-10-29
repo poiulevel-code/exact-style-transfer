@@ -44,14 +44,14 @@ export const analyzePaperAttendance = createServerFn({ method: "POST" })
       const seen = new Set<string>();
       for (const r of parsed.rows ?? []) {
         const o = r as Record<string, unknown>;
-        const studentId = String(o.studentId ?? "");
-        const date = String(o.date ?? "");
+        const studentId = String(o["studentId"] ?? "");
+        const date = String(o["date"] ?? "");
         if (!ids.has(studentId) || !isoRe.test(date) || date < data.start || date > data.end) continue;
         const key = `${studentId}|${date}`;
         if (seen.has(key)) continue;
         seen.add(key);
-        const vakitler = Array.isArray(o.vakitler) ? o.vakitler.map(String).filter((v) => vk.has(v)) : [];
-        rows.push({ studentId, date, vakitler: VAKITLER.filter((v) => vakitler.includes(v)), ders: Boolean(o.ders) });
+        const vakitler = Array.isArray(o["vakitler"]) ? o["vakitler"].map(String).filter((v) => vk.has(v)) : [];
+        rows.push({ studentId, date, vakitler: VAKITLER.filter((v) => vakitler.includes(v)), ders: Boolean(o["ders"]) });
       }
       rows.sort((a, b) => a.date.localeCompare(b.date));
       return { ok: true as const, rows };
