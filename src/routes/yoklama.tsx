@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Calendar, Save, Check, Download } from "@/components/app/icons";
-import { AppShell, Avatar } from "@/components/app/AppShell";
+import { Avatar } from "@/components/app/AppShell";
 import { ReportSheet } from "@/components/app/ReportSheet";
 import { useStore, type AttendanceRow } from "@/lib/store";
 import { VAKITLER } from "@/lib/stats";
@@ -55,7 +55,7 @@ function Yoklama() {
   };
 
   return (
-    <AppShell>
+    <>
       <h2 className="mt-7 font-serif text-3xl font-bold">Günlük Yoklama</h2>
       <p className="mt-2 text-sm text-muted-foreground">Beş vakit namaz ve ders yoklamasını işaretleyip kaydedin.</p>
       <div className="mt-5 flex items-end justify-between gap-3 rounded-2xl border border-border bg-card p-5">
@@ -118,6 +118,6 @@ function Yoklama() {
           })}
         </div>
       )}
-    </AppShell>
+    </>
   );
 }
