@@ -50,6 +50,36 @@ export async function generateTextViaGateway(instructions: string, prompt: strin
   return text;
 }
 
+/** Text generation with images (data URLs). Returns the final text. */
+export async function generateWithImagesViaGateway(instructions: string, prompt: string, images: string[]): Promise<string> {
+  const apiKey = process.env["LOVABLE_API_KEY"];
+  if (!apiKey) throw new Error("AI yapılandırılmamış.");
+  const provider = createOpenAI({
+    baseURL: GATEWAY_URL,
+    apiKey,
+    headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
+    fetch: runIdFetch(),
+  });
+  let failure: unknown;
+  const result = streamText({
+    model: provider.responses(MODEL),
+    instructions,
+    messages: [
+      {
+        role: "user",
+        content: [{ type: "text", text: prompt }, ...images.map((image) => ({ type: "image" as const, image }))],
+      },
+    ],
+    onError: ({ error }) => {
+      failure = error;
+    },
+    providerOptions: { openai: { store: false, reasoningEffort: "medium" } },
+  });
+  const text = (await result.text).trim();
+  if (!text) throw failure ?? new Error("AI boş yanıt döndürdü.");
+  return text;
+}
+
 export function aiErrorMessage(error: unknown): string {
   const e = error as { statusCode?: number; status?: number; message?: string };
   const status = e?.statusCode ?? e?.status;
