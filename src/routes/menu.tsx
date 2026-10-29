@@ -1,3 +1,4 @@
+import { localIso } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Download, Upload, RotateCcw, FileDown, UserPlus } from "@/components/app/icons";
@@ -32,7 +33,7 @@ function Menu() {
     const blob = new Blob([JSON.stringify({ students, tutanaklar, attendance, files }, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `kuran-kursu-yedek-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `kuran-kursu-yedek-${localIso()}.json`;
     a.click();
     URL.revokeObjectURL(a.href);
   };

@@ -1,3 +1,4 @@
+import { localIso } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import { Download, FileSpreadsheet, FileText, Loader2 } from "./icons";
 import { Sheet, Field, inputCls, primaryBtn } from "./Sheet";
@@ -10,7 +11,7 @@ type Format = "pdf" | "xlsx";
 export function ReportSheet({ open, onClose, initialDate, studentId: initialStudent = "" }: { open: boolean; onClose: () => void; initialDate?: string; studentId?: string }) {
   const { students, attendance } = useStore();
   const [period, setPeriod] = useState<Period>("aylik");
-  const [date, setDate] = useState(initialDate ?? new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(initialDate ?? localIso());
   const [studentId, setStudentId] = useState(initialStudent);
   const [format, setFormat] = useState<Format>("pdf");
   const [file, setFile] = useState<{ blob: Blob; name: string } | null>(null);

@@ -1,3 +1,4 @@
+import { localIso } from "@/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Calendar, Save, Check, Download } from "@/components/app/icons";
@@ -23,7 +24,7 @@ type Row = { vakitler: string[]; ders: boolean; durum: AttendanceRow["durum"] };
 
 function Yoklama() {
   const { students, attendance, saveDay } = useStore();
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(localIso());
   const [marks, setMarks] = useState<Record<string, Row>>({});
   const [saved, setSaved] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);

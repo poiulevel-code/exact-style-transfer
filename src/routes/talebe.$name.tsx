@@ -1,3 +1,4 @@
+import { localIso } from "@/lib/utils";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
@@ -29,7 +30,7 @@ export const Route = createFileRoute("/talebe/$name")({
 
 const tabs = ["Yoklama", "Tutanaklar", "Aile Raporu"] as const;
 const vakitIcons = { Sabah: Sunrise, Öğle: Sun, İkindi: CloudSun, Akşam: Sunset, Yatsı: Moon } as Record<string, typeof Clock>;
-const today = () => new Date().toISOString().slice(0, 10);
+const today = () => localIso();
 
 
 function durumLabel(r: AttendanceRow) {
